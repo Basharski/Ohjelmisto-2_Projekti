@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Flight - Main Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #450a0a, #7c2d12, #c2410c);
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .title h1 {
+            font-size: 3.5rem;
+            color: #fbbf24;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .title p {
+            font-size: 1.1rem;
+            color: #d1d5db;
+        }
+
+        .menu-container {
+            background: rgba(69, 10, 10, 0.9);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            border: 2px solid #7c2d12;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #7c2d12;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: left;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: rgba(124, 45, 18, 0.5);
+            padding-left: 2.5rem;
+        }
+
+        .icon {
+            display: inline-block;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .title h1 {
+                font-size: 2.5rem;
+            }
+
+            .menu-item {
+                font-size: 1.1rem;
+                padding: 1.2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>LAST FLIGHT</h1>
+            <p>Escape to the Moon Before It's Too Late</p>
+        </div>
+
+        <div class="menu-container">
+            <button class="menu-item" onclick="window.location.href='select_role.html'">
+                <span class="icon">✈️</span>
+                Start
+            </button>
+            <button class="menu-item" onclick="alert('The year is 2025. Robots have taken over Earth and will destroy it in exactly 168 hours (7 days). You must fly across Europe, collect 4 rocket parts, and return to Helsinki to escape to the Moon!')">
+                <span class="icon">📖</span>
+                Story
+            </button>
+            <button class="menu-item" onclick="window.close()">
+                <span class="icon">❌</span>
+                Quit
+            </button>
+        </div>
+    </div>
+</body>
+</html>

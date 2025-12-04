@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Flight - Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #450a0a, #7c2d12, #c2410c);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            background: rgba(69, 10, 10, 0.9);
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid #7c2d12;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: rgba(124, 45, 18, 0.5);
+            border: 1px solid #7c2d12;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(124, 45, 18, 0.8);
+        }
+
+        .header h2 {
+            font-size: 1.8rem;
+            color: #fbbf24;
+        }
+
+        .content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Stats Bar */
+        .stats-container {
+            background: rgba(69, 10, 10, 0.8);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 2px solid rgba(124, 45, 18, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stat-chip {
+            background: rgba(124, 45, 18, 0.5);
+            border: 1px solid #7c2d12;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-chip.danger {
+            border-color: #dc2626;
+            background: rgba(220, 38, 38, 0.2);
+        }
+
+        .stat-chip.warning {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.2);
+        }
+
+        .stat-chip .icon {
+            font-size: 1.2rem;
+        }
+
+        .stat-chip .label {
+            color: #d1d5db;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+
+        .stat-chip .value {
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Rocket Parts Progress */
+        .rocket-parts {
+            background: rgba(251, 191, 36, 0.2);
+            border: 2px solid #fbbf24;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .parts-boxes {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .part-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.25rem;
+            background: #4b5563;
+        }
+
+        .part-box.collected {
+            background: #fbbf24;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+
+        /* Map Section */
+        .map-section {
+            background: rgba(69, 10, 10, 0.8);
+            border: 2px solid rgba(124, 45, 18, 0.5);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .map-visual {
+            position: relative;
+            height: 250px;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .location-badge {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+        }
+
+        .location-badge .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-badge p {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .location-badge .city {
+            font-size: 2rem;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        /* Destinations */
+        .destinations-section {
+            margin-top: 2rem;
+        }
+
+        .destinations-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .destination-card {
+            background: rgba(69, 10, 10, 0.8);
+            border: 2px solid #7c2d12;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-3px);
+            border-color: #fbbf24;
+            box-shadow: 0 5px 20px rgba(251, 191, 36, 0.3);
+        }
+
+        .destination-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .destination-card.disabled:hover {
+            transform: none;
+            border-color: #7c2d12;
+            box-shadow: none;
+        }
+
+        .destination-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .destination-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .rocket-part-badge {
+            background: #7c3aed;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .destination-info {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #d1d5db;
+        }
+
+        .info-item .icon {
+            font-size: 1rem;
+        }
+
+        .fly-btn {
+            background: linear-gradient(to bottom, #dc2626, #991b1b);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .fly-btn:hover {
+            background: linear-gradient(to bottom, #ef4444, #b91c1c);
+            box-shadow: 0 3px 10px rgba(220, 38, 38, 0.4);
+        }
+
+        .fly-btn:disabled {
+            background: #4b5563;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                flex-direction: column;
+            }
+
+            .destinations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rocket-parts {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='index.html'">← Menu</button>
+        <h2>World Map</h2>
+    </div>
+
+    <div class="content">
+        <!-- Stats Bar -->
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-chip">
+                    <span class="icon">📍</span>
+                    <span class="label">Location:</span>
+                    <span class="value" id="current-location">Helsinki</span>
+                </div>
+                <div class="stat-chip" id="fuel-stat">
+                    <span class="icon">⛽</span>
+                    <span class="label">Fuel:</span>
+                    <span class="value" id="fuel-value">100</span>
+                </div>
+                <div class="stat-chip" id="food-stat">
+                    <span class="icon">🍎</span>
+                    <span class="label">Food:</span>
+                    <span class="value" id="food-value">50</span>
+                </div>
+                <div class="stat-chip">
+                    <span class="icon">⚡</span>
+                    <span class="label">Ammo:</span>
+                    <span class="value" id="ammo-value">30</span>
+                </div>
+                <div class="stat-chip" id="time-stat">
+                    <span class="icon">⏱</span>
+                    <span class="label">Hours:</span>
+                    <span class="value" id="time-value">168</span>
+                </div>
+                <div class="stat-chip">
+                    <span class="icon">✈️</span>
+                    <span class="label">Range:</span>
+                    <span class="value" id="range-value">400km</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rocket Parts Progress -->
+        <div class="rocket-parts">
+            <span>Rocket Parts Collected:</span>
+            <div class="parts-boxes">
+                <div class="part-box" id="part-1"></div>
+                <div class="part-box" id="part-2"></div>
+                <div class="part-box" id="part-3"></div>
+                <div class="part-box" id="part-4"></div>
+            </div>
+        </div>
+
+        <!-- Map Visual -->
+        <div class="map-section">
+            <div class="map-visual">
+                <div class="location-badge">
+                    <div class="icon">📍</div>
+                    <p>Current Location:</p>
+                    <p class="city" id="map-location">Helsinki</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Destinations -->
+        <div class="destinations-section">
+            <h3>Choose Your Next Destination</h3>
+            <div class="destinations-grid" id="destinations-grid">
+                <!-- Destination cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        let gameState = {
+            character: localStorage.getItem('selectedCharacter') || 'pilot',
+            currentLocation: 'Helsinki',
+            fuel: 100,
+            food: 50,
+            ammo: 30,
+            timeRemaining: 168,
+            rocketParts: 0,
+            airplaneRange: 400,
+            visitedCountries: ['Helsinki']
+        };
+
+        // Set character-specific starting resources
+        if (gameState.character === 'cook') {
+            gameState.food = 80;
+        } else if (gameState.character === 'pilot') {
+            gameState.fuel = 130;
+        } else if (gameState.character === 'fighter') {
+            gameState.ammo = 60;
+        }
+
+        // Countries data
+        const countries = [
+            { name: 'Tallinn', distance: 85, hasRocketPart: false },
+            { name: 'Stockholm', distance: 400, hasRocketPart: false },
+            { name: 'Riga', distance: 380, hasRocketPart: false },
+            { name: 'Copenhagen', distance: 600, hasRocketPart: false },
+            { name: 'Oslo', distance: 500, hasRocketPart: false },
+            { name: 'Warsaw', distance: 1100, hasRocketPart: true },
+            { name: 'Berlin', distance: 1100, hasRocketPart: false },
+            { name: 'Prague', distance: 1400, hasRocketPart: false },
+            { name: 'Vienna', distance: 1500, hasRocketPart: true },
+            { name: 'Amsterdam', distance: 1600, hasRocketPart: false },
+            { name: 'Brussels', distance: 1700, hasRocketPart: false },
+            { name: 'Paris', distance: 1900, hasRocketPart: false },
+            { name: 'London', distance: 1800, hasRocketPart: false },
+            { name: 'Budapest', distance: 1500, hasRocketPart: false },
+            { name: 'Bucharest', distance: 1900, hasRocketPart: true },
+            { name: 'Rome', distance: 2300, hasRocketPart: false },
+            { name: 'Madrid', distance: 2800, hasRocketPart: false },
+            { name: 'Athens', distance: 2400, hasRocketPart: true }
+        ];
+
+        function getFuelCost(distance) {
+            const baseCost = Math.ceil(distance / 20);
+            return gameState.character === 'pilot' ? Math.ceil(baseCost * 0.7) : baseCost;
+        }
+
+        function updateUI() {
+            // Update stats
+            document.getElementById('current-location').textContent = gameState.currentLocation;
+            document.getElementById('fuel-value').textContent = gameState.fuel;
+            document.getElementById('food-value').textContent = gameState.food;
+            document.getElementById('ammo-value').textContent = gameState.ammo;
+            document.getElementById('time-value').textContent = gameState.timeRemaining;
+            document.getElementById('range-value').textContent = gameState.airplaneRange + 'km';
+            document.getElementById('map-location').textContent = gameState.currentLocation;
+
+            // Update stat colors
+            const fuelStat = document.getElementById('fuel-stat');
+            if (gameState.fuel < 20) fuelStat.classList.add('danger');
+            else fuelStat.classList.remove('danger');
+
+            const foodStat = document.getElementById('food-stat');
+            if (gameState.food < 10) foodStat.classList.add('danger');
+            else foodStat.classList.remove('danger');
+
+            const timeStat = document.getElementById('time-stat');
+            if (gameState.timeRemaining < 24) timeStat.classList.add('warning');
+            else timeStat.classList.remove('warning');
+
+            // Update rocket parts
+            for (let i = 1; i <= 4; i++) {
+                const partElement = document.getElementById('part-' + i);
+                if (i <= gameState.rocketParts) {
+                    partElement.classList.add('collected');
+                } else {
+                    partElement.classList.remove('collected');
+                }
+            }
+
+            // Update destinations
+            updateDestinations();
+        }
+
+        function updateDestinations() {
+            const grid = document.getElementById('destinations-grid');
+            grid.innerHTML = '';
+
+            // Get available destinations (not visited and within range)
+            const available = countries
+                .filter(c => !gameState.visitedCountries.includes(c.name) && c.distance <= gameState.airplaneRange)
+                .slice(0, 4);
+
+            available.forEach(country => {
+                const fuelCost = getFuelCost(country.distance);
+                const canAfford = gameState.fuel >= fuelCost;
+
+                const card = document.createElement('div');
+                card.className = 'destination-card' + (canAfford ? '' : ' disabled');
+                card.innerHTML = `
+                    <div class="destination-header">
+                        <div class="destination-name">${country.name}</div>
+                        ${country.hasRocketPart ? '<div class="rocket-part-badge">🚀 Rocket Part</div>' : ''}
+                    </div>
+                    <div class="destination-info">
+                        <div class="info-item">
+                            <span class="icon">📏</span>
+                            <span>${country.distance}km</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="icon">⛽</span>
+                            <span>-${fuelCost} fuel</span>
+                        </div>
+                    </div>
+                    <button class="fly-btn" ${canAfford ? '' : 'disabled'} onclick="flyTo('${country.name}', ${country.distance}, ${country.hasRocketPart})">
+                        ${canAfford ? 'Fly to ' + country.name : 'Insufficient Fuel'}
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+
+            if (available.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; color: #d1d5db; grid-column: 1/-1;">No destinations available within your range.</p>';
+            }
+        }
+
+        function flyTo(countryName, distance, hasRocketPart) {
+            const fuelCost = getFuelCost(distance);
+            gameState.fuel -= fuelCost;
+
+            const foodCost = gameState.character === 'cook' ? 3 : 5;
+            gameState.food -= foodCost;
+
+            gameState.timeRemaining -= 12;
+            gameState.airplaneRange += 50;
+
+            gameState.currentLocation = countryName;
+            gameState.visitedCountries.push(countryName);
+
+            const fuelGain = Math.floor(Math.random() * 20) + 10;
+            const foodGain = Math.floor(Math.random() * 15) + 5 + (gameState.character === 'cook' ? 2 : 0);
+            const ammoGain = Math.floor(Math.random() * 10) + 5;
+
+            gameState.fuel += fuelGain;
+            gameState.food += foodGain;
+            gameState.ammo += ammoGain;
+
+            if (hasRocketPart) {
+                gameState.rocketParts++;
+                alert(`🎉 You found a Rocket Part! (${gameState.rocketParts}/4)\n\nYou also gained:\n+${fuelGain} Fuel\n+${foodGain} Food\n+${ammoGain} Ammo`);
+            } else {
+                alert(`Arrived at ${countryName}!\n\nYou gained:\n+${fuelGain} Fuel\n+${foodGain} Food\n+${ammoGain} Ammo`);
+            }
+
+            // Win / lose conditions
+            if (gameState.rocketParts === 4 && gameState.currentLocation === 'Helsinki') {
+                alert('🎉 VICTORY! You collected all 4 rocket parts and returned to Helsinki!\n\nYou escaped to the Moon with ' + gameState.timeRemaining + ' hours to spare!');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            if (gameState.fuel <= 0) {
+                alert('💀 GAME OVER: Out of Fuel!\n\nYou collected ' + gameState.rocketParts + '/4 rocket parts.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            if (gameState.food <= 0) {
+                alert('💀 GAME OVER: Out of Food!\n\nYou collected ' + gameState.rocketParts + '/4 rocket parts.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            if (gameState.timeRemaining <= 0) {
+                alert('💀 GAME OVER: Time\'s Up!\n\nThe robots destroyed Earth. You collected ' + gameState.rocketParts + '/4 rocket parts.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            updateUI();
+        }
+
+        // Initialize
+        updateUI();
+    </script>
+</body>
+</html>
+cd
