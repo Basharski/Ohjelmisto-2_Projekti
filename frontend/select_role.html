@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Flight - Character Select</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #450a0a, #7c2d12, #c2410c);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .header {
+            background: rgba(69, 10, 10, 0.9);
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid #7c2d12;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .back-btn {
+            background: rgba(124, 45, 18, 0.5);
+            border: 1px solid #7c2d12;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(124, 45, 18, 0.8);
+        }
+
+        .header h2 {
+            font-size: 1.8rem;
+            color: #fbbf24;
+        }
+
+        .content {
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .character-card {
+            background: rgba(69, 10, 10, 0.8);
+            border: 2px solid #7c2d12;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+        }
+
+        .character-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(124, 45, 18, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            border: 2px solid rgba(251, 191, 36, 0.5);
+            font-size: 2.5rem;
+        }
+
+        .character-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .character-card p {
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+        }
+
+        .bonuses {
+            margin-bottom: 1.5rem;
+        }
+
+        .bonus-badge {
+            display: block;
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid #fbbf24;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #fde68a;
+        }
+
+        .select-btn {
+            background: linear-gradient(to bottom, #dc2626, #991b1b);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .select-btn:hover {
+            background: linear-gradient(to bottom, #ef4444, #b91c1c);
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+
+        .cook .select-btn {
+            background: linear-gradient(to bottom, #16a34a, #15803d);
+        }
+
+        .cook .select-btn:hover {
+            background: linear-gradient(to bottom, #22c55e, #16a34a);
+        }
+
+        .pilot .select-btn {
+            background: linear-gradient(to bottom, #2563eb, #1e40af);
+        }
+
+        .pilot .select-btn:hover {
+            background: linear-gradient(to bottom, #3b82f6, #2563eb);
+        }
+
+        @media (max-width: 768px) {
+            .characters-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+        <h2>Select Your Character</h2>
+    </div>
+
+    <div class="content">
+        <div class="characters-grid">
+            <!-- Cook -->
+            <div class="character-card cook">
+                <div class="character-icon">👨‍🍳</div>
+                <h3>The Cook</h3>
+                <p>Expert at rationing supplies</p>
+                <div class="bonuses">
+                    <span class="bonus-badge">Starts with 80 food</span>
+                    <span class="bonus-badge">Uses 40% less food per flight</span>
+                    <span class="bonus-badge">+2 Food from loot</span>
+                </div>
+                <button class="select-btn" onclick="selectCharacter('cook')">Select The Cook</button>
+            </div>
+
+            <!-- Pilot -->
+            <div class="character-card pilot">
+                <div class="character-icon">✈️</div>
+                <h3>The Pilot</h3>
+                <p>Master of the skies</p>
+                <div class="bonuses">
+                    <span class="bonus-badge">Starts with 130 fuel</span>
+                    <span class="bonus-badge">Uses 30% less fuel</span>
+                    <span class="bonus-badge">Better evade chance</span>
+                </div>
+                <button class="select-btn" onclick="selectCharacter('pilot')">Select The Pilot</button>
+            </div>
+
+            <!-- Fighter -->
+            <div class="character-card fighter">
+                <div class="character-icon">⚔️</div>
+                <h3>The Fighter</h3>
+                <p>Combat specialist</p>
+                <div class="bonuses">
+                    <span class="bonus-badge">Starts with 60 ammo</span>
+                    <span class="bonus-badge">80% combat win rate</span>
+                    <span class="bonus-badge">75% evade chance</span>
+                </div>
+                <button class="select-btn" onclick="selectCharacter('fighter')">Select The Fighter</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectCharacter(character) {
+            localStorage.setItem('selectedCharacter', character);
+            window.location.href = 'game.html';
+        }
+    </script>
+</body>
+</html>
