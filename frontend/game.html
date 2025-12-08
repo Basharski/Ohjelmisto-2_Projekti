@@ -134,27 +134,37 @@
 
         /* Map Section */
         .map-section {
-            background: rgba(69, 10, 10, 0.8);
-            border: 2px solid rgba(124, 45, 18, 0.5);
-            border-radius: 0.75rem;
-            overflow: hidden;
+            background: rgba(180, 83, 9, 0.9);
+            border-radius: 1.25rem;
+            padding: 1.25rem;
+            border: 1px solid rgba(248, 250, 252, 0.08);
             margin-bottom: 1.5rem;
         }
 
         .map-visual {
             position: relative;
-            height: 250px;
-            background: linear-gradient(135deg, #1e293b, #334155);
+            height: 260px;
+            border-radius: 1rem;
+            overflow: hidden;
+            background-image: linear-gradient(
+                    to bottom,
+                    rgba(15, 23, 42, 0.45),
+                    rgba(15, 23, 42, 0.85)
+                ),
+                url("https://images.pexels.com/photos/697662/pexels-photo-697662.jpeg?auto=compress&cs=tinysrgb&w=1600");
+            background-size: cover;
+            background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .location-badge {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 2rem;
-            border-radius: 0.75rem;
+            background: rgba(0, 0, 0, 0.82);
+            padding: 1.25rem 2.25rem;
+            border-radius: 0.9rem;
             text-align: center;
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.85);
         }
 
         .location-badge .icon {
@@ -176,18 +186,24 @@
         /* Destinations */
         .destinations-section {
             margin-top: 2rem;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .destinations-section h3 {
             font-size: 1.8rem;
             margin-bottom: 1.5rem;
             color: white;
+            text-align: center;
         }
 
         .destinations-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
+            max-width: 1150px;
+            margin: 0 auto;
         }
 
         .destination-card {
@@ -255,27 +271,125 @@
         }
 
         .fly-btn {
-            background: linear-gradient(to bottom, #dc2626, #991b1b);
+            background: linear-gradient(135deg, #facc15, #f97316);
             border: none;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
+            color: #7c2d12;
+            padding: 0.85rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 0.95rem;
             cursor: pointer;
             width: 100%;
             margin-top: 1rem;
-            transition: all 0.3s ease;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
             font-weight: 600;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.65);
         }
 
         .fly-btn:hover {
-            background: linear-gradient(to bottom, #ef4444, #b91c1c);
-            box-shadow: 0 3px 10px rgba(220, 38, 38, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85);
+            opacity: 0.97;
         }
 
         .fly-btn:disabled {
             background: #4b5563;
+            color: #e5e7eb;
             cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* ---------- In-flight full-screen ---------- */
+
+        .flight-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, #1f2937 0, #020617 60%);
+            display: none; /* فعال می‌کنیمش موقع پرواز */
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+
+        .flight-card {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(15, 15, 15, 0.96);
+            border-radius: 1.5rem;
+            padding: 2rem 2.5rem 2.25rem;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(248, 250, 252, 0.08);
+            text-align: center;
+        }
+
+        .flight-title {
+            letter-spacing: 0.35em;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #9ca3af;
+            margin-bottom: 0.75rem;
+        }
+
+        .flight-main {
+            font-size: 1.8rem;
+            color: #fef3c7;
+            margin-bottom: 0.25rem;
+        }
+
+        .flight-sub {
+            font-size: 1rem;
+            color: #e5e7eb;
+            margin-bottom: 1.8rem;
+        }
+
+        .flight-destination-name {
+            color: #facc15;
+            font-weight: 600;
+        }
+
+        .flight-progress-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #d1d5db;
+            margin-bottom: 0.4rem;
+        }
+
+        .flight-progress-bar {
+            width: 100%;
+            height: 10px;
+            border-radius: 9999px;
+            background: #111827;
+            overflow: hidden;
+            margin-bottom: 1.2rem;
+        }
+
+        .flight-progress-fill {
+            width: 0%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            transition: width 0.15s ease;
+        }
+
+        .flight-tap-btn {
+            background: linear-gradient(135deg, #facc15, #f97316);
+            border: none;
+            color: #7c2d12;
+            padding: 0.8rem 2.4rem;
+            border-radius: 9999px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+        }
+
+        .flight-tap-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.95);
+            opacity: 0.97;
         }
 
         @media (max-width: 768px) {
@@ -291,10 +405,40 @@
                 flex-direction: column;
                 gap: 1rem;
             }
+
+            .flight-card {
+                padding: 1.75rem 1.5rem 2rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- In-flight full screen -->
+    <div id="flight-screen" class="flight-screen">
+        <div class="flight-card">
+            <div class="flight-title">IN FLIGHT</div>
+            <div class="flight-main">
+                Flying to
+                <span id="flight-destination" class="flight-destination-name"></span>
+            </div>
+            <div class="flight-sub">
+                Tap to keep flying and complete the route.
+            </div>
+
+            <div class="flight-progress-label-row">
+                <span>Flight progress</span>
+                <span id="flight-progress-percent">0%</span>
+            </div>
+            <div class="flight-progress-bar">
+                <div id="flight-progress-fill" class="flight-progress-fill"></div>
+            </div>
+
+            <button id="flight-tap-btn" class="flight-tap-btn">
+                👆 Tap to keep flying!
+            </button>
+        </div>
+    </div>
+
     <div class="header">
         <button class="back-btn" onclick="window.location.href='index.html'">← Menu</button>
         <h2>World Map</h2>
@@ -381,6 +525,16 @@
             airplaneRange: 400,
             visitedCountries: ['Helsinki']
         };
+
+        // In-flight screen state
+        let currentFlight = null;
+        let flightProgress = 0;
+
+        const flightScreen = document.getElementById('flight-screen');
+        const flightDestinationEl = document.getElementById('flight-destination');
+        const flightProgressFillEl = document.getElementById('flight-progress-fill');
+        const flightProgressPercentEl = document.getElementById('flight-progress-percent');
+        const flightTapBtn = document.getElementById('flight-tap-btn');
 
         // Set character-specific starting resources
         if (gameState.character === 'cook') {
@@ -520,14 +674,70 @@
 
             if (hasRocketPart) {
                 gameState.rocketParts++;
-                alert(`🎉 You found a Rocket Part! (${gameState.rocketParts}/4)\n\nYou also gained:\n+${fuelGain} Fuel\n+${foodGain} Food\n+${ammoGain} Ammo`);
-            } else {
-                alert(`Arrived at ${countryName}!\n\nYou gained:\n+${fuelGain} Fuel\n+${foodGain} Food\n+${ammoGain} Ammo`);
             }
+
+            // ذخیره اطلاعات برای صفحه In Flight
+            currentFlight = {
+                countryName,
+                hasRocketPart,
+                fuelGain,
+                foodGain,
+                ammoGain
+            };
+
+            openFlightScreen();
+        }
+
+        function openFlightScreen() {
+            if (!currentFlight || !flightScreen) return;
+
+            flightProgress = 0;
+
+            if (flightDestinationEl) {
+                flightDestinationEl.textContent = currentFlight.countryName;
+            }
+            if (flightProgressFillEl) {
+                flightProgressFillEl.style.width = '0%';
+            }
+            if (flightProgressPercentEl) {
+                flightProgressPercentEl.textContent = '0%';
+            }
+
+            flightScreen.style.display = 'flex';
+        }
+
+        function advanceFlight() {
+            if (!currentFlight) return;
+
+            flightProgress = Math.min(100, flightProgress + 25);
+
+            if (flightProgressFillEl) {
+                flightProgressFillEl.style.width = flightProgress + '%';
+            }
+            if (flightProgressPercentEl) {
+                flightProgressPercentEl.textContent = flightProgress + '%';
+            }
+
+            if (flightProgress >= 100) {
+                finishFlight();
+            }
+        }
+
+        function finishFlight() {
+            if (flightScreen) {
+                flightScreen.style.display = 'none';
+            }
+            if (!currentFlight) return;
+
+            // بعد از پایان پرواز، فقط بازی رو ادامه می‌دیم
+            currentFlight = null;
 
             // Win / lose conditions
             if (gameState.rocketParts === 4 && gameState.currentLocation === 'Helsinki') {
-                alert('🎉 VICTORY! You collected all 4 rocket parts and returned to Helsinki!\n\nYou escaped to the Moon with ' + gameState.timeRemaining + ' hours to spare!');
+                alert(
+                    '🎉 VICTORY! You collected all 4 rocket parts and returned to Helsinki!\n\n' +
+                    'You escaped to the Moon with ' + gameState.timeRemaining + ' hours to spare!'
+                );
                 window.location.href = 'index.html';
                 return;
             }
@@ -550,7 +760,13 @@
                 return;
             }
 
+            // ادامه بازی
             updateUI();
+        }
+
+        // دکمه "Tap to keep flying!"
+        if (flightTapBtn) {
+            flightTapBtn.addEventListener('click', advanceFlight);
         }
 
         // Initialize
@@ -558,4 +774,5 @@
     </script>
 </body>
 </html>
-cd
+
+

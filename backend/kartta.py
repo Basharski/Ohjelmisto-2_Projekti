@@ -9,11 +9,11 @@ def get_connection():
         host="127.0.0.1",
         port=3306,
         database="flight_game",
-        user="ali",
-        password="saalasana1",
+        user="root",
+        password="12345",
         autocommit=True,
+         use_pure=True, 
     )
-
 
 def get_airport_by_icao(conn, icao):
 

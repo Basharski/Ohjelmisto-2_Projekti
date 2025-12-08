@@ -113,39 +113,33 @@
             color: #fde68a;
         }
 
+        /* فقط رنگ و استایل دکمه‌ها عوض شده */
         .select-btn {
-            background: linear-gradient(to bottom, #dc2626, #991b1b);
+            background: linear-gradient(135deg, #facc15, #f97316); /* زرد-نارنجی مثل فیگما */
             border: none;
-            color: white;
+            color: #7c2d12;
             padding: 1rem 2rem;
-            border-radius: 0.5rem;
-            font-size: 1.1rem;
+            border-radius: 9999px;
+            font-size: 1.05rem;
             cursor: pointer;
             width: 100%;
-            transition: all 0.3s ease;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
             font-weight: 600;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
         }
 
         .select-btn:hover {
-            background: linear-gradient(to bottom, #ef4444, #b91c1c);
-            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.75);
+            opacity: 0.97;
         }
 
-        .cook .select-btn {
-            background: linear-gradient(to bottom, #16a34a, #15803d);
-        }
-
-        .cook .select-btn:hover {
-            background: linear-gradient(to bottom, #22c55e, #16a34a);
-        }
-
-        .pilot .select-btn {
-            background: linear-gradient(to bottom, #2563eb, #1e40af);
-        }
-
-        .pilot .select-btn:hover {
-            background: linear-gradient(to bottom, #3b82f6, #2563eb);
-        }
+        /* این سه تا رو حذف کردیم که رنگ همه دکمه‌ها یکی باشه */
+        /*
+        .cook .select-btn { ... }
+        .pilot .select-btn { ... }
+        .fighter .select-btn { ... }
+        */
 
         @media (max-width: 768px) {
             .characters-grid {
@@ -211,3 +205,4 @@
     </script>
 </body>
 </html>
+
