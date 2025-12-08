@@ -9,6 +9,7 @@ import taistelu
 app = Flask(__name__)
 CORS(app)
 
+
 current_state = None
 current_player = None
 
@@ -49,8 +50,8 @@ def countries():
     conn = kartta.get_connection()
     maat = kartta.nearest_country_options(
         conn,
-        current_state["location"],
-        current_state["range_km"]
+        current_state  ["location"],
+        current_state  ["range_km"]
 
     )
 
