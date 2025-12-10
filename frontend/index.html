@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,17 +14,34 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #450a0a, #7c2d12, #c2410c);
+            background-image:
+                linear-gradient(to bottom,
+                    rgba(69, 10, 10, 0.35),
+                    rgba(124, 45, 18, 0.3),
+                    rgba(194, 65, 12, 0.3)),
+                url("asset/Flight_game.png");
+
+            /* ✅ background issue */
+            background-size: cover;          /* full screen */
+            background-position: center 30%; /* cover background text*/
+            background-repeat: no-repeat;
+
+            background-color: #1b0b07;
             min-height: 100vh;
             color: white;
+
+            /* menue */
             display: flex;
-            align-items: center;
+            align-items: flex-start;   /* top standing */
             justify-content: center;
-            padding: 2rem;
+            padding-top: 7vh;         
+            padding-left: 2rem;
+            padding-right: 2rem;
+            padding-bottom: 2rem;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 480px;
             width: 100%;
         }
 
@@ -50,19 +68,20 @@
             overflow: hidden;
             border: 2px solid #7c2d12;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
         }
 
         .menu-item {
             display: flex;
             align-items: center;
-            padding: 1.5rem 2rem;
+            padding: 1.4rem 2rem;
             background: transparent;
             border: none;
             border-bottom: 1px solid #7c2d12;
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             width: 100%;
             text-align: left;
         }
@@ -73,18 +92,23 @@
 
         .menu-item:hover {
             background: rgba(124, 45, 18, 0.5);
-            padding-left: 2.5rem;
+            padding-left: 2.4rem;
+        }
+
+        .title {
+            display: none;
         }
 
         .icon {
             display: inline-block;
             margin-right: 1rem;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
         @media (max-width: 640px) {
             .title h1 {
-                font-size: 2.5rem;
+                font-size: 1.5rem;
+                padding: 1.2rem 1.6rem;
             }
 
             .menu-item {
@@ -94,7 +118,9 @@
         }
     </style>
 </head>
+
 <body>
+
     <div class="container">
         <div class="title">
             <h1>LAST FLIGHT</h1>
@@ -106,7 +132,8 @@
                 <span class="icon">✈️</span>
                 Start
             </button>
-            <button class="menu-item" onclick="alert('The year is 2025. Robots have taken over Earth and will destroy it in exactly 168 hours (7 days). You must fly across Europe, collect 4 rocket parts, and return to Helsinki to escape to the Moon!')">
+            <button class="menu-item"
+                onclick="alert('The year is 2025. Robots have taken over Earth and will destroy it in exactly 168 hours (7 days). You must fly across Europe, collect 4 rocket parts, and return to Helsinki to escape to the Moon!')">
                 <span class="icon">📖</span>
                 Story
             </button>
@@ -117,4 +144,9 @@
         </div>
     </div>
 </body>
+
 </html>
+
+
+
+
