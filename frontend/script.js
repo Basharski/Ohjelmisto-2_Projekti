@@ -100,4 +100,4 @@ function loadStateAndDestinations() {
     .then(res => {
       if (!res.ok) throw new Error('Failed to fetch countries');
       return res.json();
-    })
+    })}
