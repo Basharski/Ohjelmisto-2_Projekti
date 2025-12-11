@@ -1,13 +1,15 @@
-
 const API_BASE = 'http://localhost:5000';
 
 let currentState = null;
 let currentPlayer = null;
 
+// Initialise pages when DOM is ready.
 document.addEventListener('DOMContentLoaded', () => {
+  // If character selection buttons are present, set up role selection.
   if (document.querySelector('.select-btn[data-character]')) {
     initSelectRolePage();
   }
+  // If the game status area is present, load game state and destinations.
   if (document.getElementById('current-location')) {
     initGamePage();
   }
@@ -15,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function initSelectRolePage() {
+  // Start a new game on page load.
   fetch(`${API_BASE}/start`, { method: 'POST' })
     .then(res => res.json())
     .then(data => {
@@ -27,15 +30,14 @@ function initSelectRolePage() {
     })
     .catch(err => console.warn('Error starting game:', err));
 
+  // Map English role names to Finnish names expected by the backend.
+  const roleMap = { cook: 'kokki', pilot: 'pilotti', fighter: 'taistelija' };
+
   const buttons = document.querySelectorAll('.select-btn[data-character]');
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       const engRole = btn.getAttribute('data-character');
-
-
-      const roleMap = { cook: 'kokki', pilot: 'pilotti', fighter: 'taistelija' };
       const role = roleMap[engRole] || engRole;
-
       fetch(`${API_BASE}/choose_role`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -56,6 +58,7 @@ function initSelectRolePage() {
           } catch (e) {
             console.warn('Failed to persist role state:', e);
           }
+          // Navigate to the game screen.
           window.location.href = 'game.html';
         })
         .catch(err => {
@@ -64,6 +67,7 @@ function initSelectRolePage() {
     });
   });
 }
+
 
 function initGamePage() {
   loadStateAndDestinations();
@@ -146,7 +150,7 @@ function updateDestinations(destinations) {
     const title = document.createElement('h4');
     title.textContent = dest.country;
     const distanceP = document.createElement('p');
-    distanceP.textContent = `${dest.distance} km`;
+    distanceP.textContent = `${dest.distance.toFixed(1)} km`;
     card.appendChild(title);
     card.appendChild(distanceP);
 
@@ -175,11 +179,9 @@ function flyToDestination(icao) {
   })
     .then(res => res.json())
     .then(data => {
-
       if (data.Error || data.error) {
         alert(data.Error || data.error || 'Flight failed');
       }
-
       if (data.state) {
         currentState = data.state;
         try { localStorage.setItem('game_state', JSON.stringify(data.state)); } catch (e) {}
@@ -188,9 +190,7 @@ function flyToDestination(icao) {
         currentPlayer = data.player;
         try { localStorage.setItem('player', JSON.stringify(data.player)); } catch (e) {}
       }
-
       checkEndConditions();
-
       loadStateAndDestinations();
     })
     .catch(err => {
