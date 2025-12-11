@@ -122,6 +122,55 @@
             color: #d1d5db;
             cursor: not-allowed;
         }
+
+        /* Message panel styling for flight results and loot notifications */
+        #messages-panel {
+            background: rgba(124, 45, 18, 0.9);
+            border: 1px solid #7c2d12;
+            border-radius: 0.5rem;
+            color: #fbbf24;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: none;
+            /* Slight drop shadow */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        /* Highlight rocket part destinations */
+        .rocket-indicator {
+            margin-left: 0.25rem;
+            color: #fbbf24;
+            font-size: 1.2rem;
+        }
+        /* Flight animation overlay */
+        #flight-animation-overlay {
+            position: fixed;
+            top: 45%;
+            left: -50px;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 10000;
+            display: none;
+        }
+        @keyframes fly-plane {
+            from { transform: translateX(-50px); }
+            to { transform: translateX(calc(100vw + 50px)); }
+        }
+
+        /* Style for the action buttons inside the message panel */
+        .message-actions {
+            margin-top: 1rem;
+            text-align: right;
+        }
+        .message-actions button {
+            margin-left: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            background: linear-gradient(135deg, #facc15, #f97316);
+            color: #7c2d12;
+        }
     </style>
 </head>
 <body>
@@ -139,6 +188,21 @@
             <div class="stat">Ammo: <span id="ammo-value">-</span></div>
             <div class="stat">Time: <span id="time-value">-</span></div>
             <div class="stat">Range: <span id="range-value">-</span></div>
+            <div class="stat">HP: <span id="hp-value">-</span></div>
+        </div>
+
+        <!-- Message panel for flight results and loot. Hidden by default and shown by script.js. -->
+        <div id="messages-panel"></div>
+
+        <!-- Inventory button -->
+        <button id="inventory-btn" class="inventory-btn" style="margin-bottom:1rem; padding:0.5rem 1rem; background: rgba(124,45,18,0.7); border: 1px solid #7c2d12; color:white; border-radius:0.5rem; cursor:pointer;">Inventory</button>
+
+        <!-- Inventory modal -->
+        <div id="inventory-modal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:rgba(69,10,10,0.95); border:2px solid #7c2d12; border-radius:1rem; padding:1.5rem; z-index:1000; max-width:300px; color:white;">
+            <h3 style="margin-bottom:1rem; color:#fbbf24;">Inventory</h3>
+            <div id="inventory-details" style="margin-bottom:1rem;"></div>
+            <button id="eat-food-btn" style="margin-top:0.5rem; padding:0.5rem 1rem; background:linear-gradient(135deg,#facc15,#f97316); border:none; color:#7c2d12; border-radius:0.5rem; cursor:pointer;">Eat Food (+10 HP)</button>
+            <button id="close-inventory" style="margin-top:0.5rem; margin-left:0.5rem; padding:0.5rem 1rem; background:#7c2d12; border:none; color:white; border-radius:0.5rem; cursor:pointer;">Close</button>
         </div>
 
         <!-- Rocket parts progress -->
@@ -150,6 +214,9 @@
             <div class="rocket-part" id="part-4"></div>
         </div>
 
+        <!-- List of countries where parts remain -->
+        <div id="parts-remaining-list" style="margin-bottom:2rem; color:#fbbf24;"></div>
+
         <!-- Destinations list; populated by script.js -->
         <div class="destinations-section">
             <h3>Available Destinations</h3>
@@ -160,5 +227,7 @@
     </div>
 
     <script src="script.js"></script>
+    <!-- Flight animation overlay; plane emoji slides across the screen when flying -->
+    <div id="flight-animation-overlay"></div>
 </body>
 </html>
