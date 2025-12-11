@@ -1,7 +1,6 @@
-
-import mysql.connector
-from geopy.distance import geodesic
 import random
+from geopy.distance import geodesic
+import mysql.connector
 
 def get_connection():
 
@@ -12,7 +11,7 @@ def get_connection():
         user="root",
         password="12345",
         autocommit=True,
-         use_pure=True, 
+        use_pure=True,
     )
 
 def get_airport_by_icao(conn, icao):
@@ -23,6 +22,8 @@ def get_airport_by_icao(conn, icao):
     cur.execute(sql, (icao,))
     row = cur.fetchone()
     cur.close()
+    if row is None:
+        return None
     return {
         "ident": row[0],
         "name": row[1],
@@ -32,7 +33,6 @@ def get_airport_by_icao(conn, icao):
         "municipality": row[5],
     }
 
-
 def get_country_name(conn, iso_country):
 
     cur = conn.cursor()
@@ -40,7 +40,6 @@ def get_country_name(conn, iso_country):
     row = cur.fetchone()
     cur.close()
     return row[0] if row else iso_country
-
 
 def nearest_country_options(conn, current, max_km):
 
@@ -68,44 +67,49 @@ def nearest_country_options(conn, current, max_km):
         results.append({
             "country": cname,
             "icao": info["icao"],
+            "iso": iso,
             "distance": info["distance"],
         })
     results.sort(key=lambda x: x["distance"])
     return results
 
-
 def init_game_state(conn):
 
     state = {}
+
     state["location"] = get_airport_by_icao(conn, "EFHK")
     state["range_km"] = 400
     state["time_left"] = 168
+
     state["parts"] = spawn_rocket_parts(conn, 4, state["location"]["iso_country"])
     return state
-
 
 def fly_to(conn, state, player, dest_icao):
 
     dest = get_airport_by_icao(conn, dest_icao)
+    if dest is None:
+        return False, state, player
     origin = (state["location"]["lat"], state["location"]["lon"])
     distance = geodesic(origin, (dest["lat"], dest["lon"])).km
-    if player["fuel"] < distance:
+
+    if player.get("fuel", 0) < distance:
         return False, state, player
-    state["location"] = dest
+
+    player["fuel"] -= int(distance)
+
     state["time_left"] -= 12
     state["range_km"] += 50
-    player["fuel"] -= int(distance)
-    return True, state, player
 
+    state["location"] = dest
+    return True, state, player
 
 def spawn_rocket_parts(conn, n, exclude_iso):
 
     cur = conn.cursor()
-    cur.execute("SELECT iso_country, name FROM country WHERE iso_country <> %s", (exclude_iso,))
+    cur.execute("SELECT iso_country FROM country WHERE iso_country <> %s", (exclude_iso,))
     rows = cur.fetchall()
     cur.close()
-    chosen = random.sample(rows, n)
-    return [
-        {"iso": iso, "country": name}
-        for iso, name in chosen
-    ]
+    codes = [row[0] for row in rows]
+    n = min(n, len(codes))
+    chosen = random.sample(codes, n) if n > 0 else []
+    return chosen
