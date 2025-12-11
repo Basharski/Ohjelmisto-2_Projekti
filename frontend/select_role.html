@@ -12,20 +12,19 @@
         }
 
         body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
-    background-image: 
-        linear-gradient(to bottom, rgba(69, 10, 10, 0.9), rgba(124, 45, 18, 0.8), rgba(194, 65, 12, 0.8)),
-        url("../asset/Flight_game.png");
+            background-image:
+                linear-gradient(to bottom, rgba(69, 10, 10, 0.9), rgba(124, 45, 18, 0.8), rgba(194, 65, 12, 0.8)),
+                url("../asset/Flight_game.png");
 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
 
-    min-height: 100vh;
-    color: white;
-}
-
+            min-height: 100vh;
+            color: white;
+        }
 
         .header {
             background: rgba(69, 10, 10, 0.9);
@@ -122,9 +121,8 @@
             color: #fde68a;
         }
 
-        /* فقط رنگ و استایل دکمه‌ها عوض شده */
         .select-btn {
-            background: linear-gradient(135deg, #facc15, #f97316); /* زرد-نارنجی مثل فیگما */
+            background: linear-gradient(135deg, #facc15, #f97316);
             border: none;
             color: #7c2d12;
             padding: 1rem 2rem;
@@ -142,13 +140,6 @@
             box-shadow: 0 14px 32px rgba(0, 0, 0, 0.75);
             opacity: 0.97;
         }
-
-        /* این سه تا رو حذف کردیم که رنگ همه دکمه‌ها یکی باشه */
-        /*
-        .cook .select-btn { ... }
-        .pilot .select-btn { ... }
-        .fighter .select-btn { ... }
-        */
 
         @media (max-width: 768px) {
             .characters-grid {
@@ -175,7 +166,7 @@
                     <span class="bonus-badge">Uses 40% less food per flight</span>
                     <span class="bonus-badge">+2 Food from loot</span>
                 </div>
-                <button class="select-btn" onclick="selectCharacter('cook')">Select The Cook</button>
+                <button class="select-btn" data-character="cook">Select The Cook</button>
             </div>
 
             <!-- Pilot -->
@@ -188,7 +179,7 @@
                     <span class="bonus-badge">Uses 30% less fuel</span>
                     <span class="bonus-badge">Better evade chance</span>
                 </div>
-                <button class="select-btn" onclick="selectCharacter('pilot')">Select The Pilot</button>
+                <button class="select-btn" data-character="pilot">Select The Pilot</button>
             </div>
 
             <!-- Fighter -->
@@ -201,17 +192,12 @@
                     <span class="bonus-badge">80% combat win rate</span>
                     <span class="bonus-badge">75% evade chance</span>
                 </div>
-                <button class="select-btn" onclick="selectCharacter('fighter')">Select The Fighter</button>
+                <button class="select-btn" data-character="fighter">Select The Fighter</button>
             </div>
         </div>
     </div>
 
-    <script>
-        function selectCharacter(character) {
-            localStorage.setItem('selectedCharacter', character);
-            window.location.href = 'game.html';
-        }
-    </script>
+    <!-- Integration script (logic will be added here via script.js) -->
+    <script src="script.js"></script>
 </body>
 </html>
-
